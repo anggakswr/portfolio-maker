@@ -2,12 +2,12 @@ import Image from "next/image";
 import imgResize from "@/icon/resize.svg";
 import imgFile from "@/icon/file.svg";
 
-const BgImg = () => {
+const ImgField = ({ label }: { label: string }) => {
   return (
-    <div className="p-6 bg-white rounded-xl shadow">
+    <div className="p-6 mb-6 bg-white rounded-xl shadow">
       <div className="flex justify-between items-center mb-[18px]">
         <div className="text-gray-800 text-base font-semibold underline leading-normal">
-          Background Image
+          {label}
         </div>
 
         <button>
@@ -41,4 +41,4 @@ const BgImg = () => {
   );
 };
 
-export default BgImg;
+export default ImgField;

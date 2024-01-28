@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply duration-150;
+}
+
 .box-center {
   @apply flex items-center justify-center;
+}
+
+.box-equal {
+  @apply flex items-center;
+}
+
+.input1 {
+  @apply outline-none w-full py-4 px-3.5 relative rounded-lg border border-gray-400 border-opacity-30 placeholder-gray-400 font-normal leading-normal;
+}
+
+button:hover,
+.cursor-pointer:hover {
+  @apply opacity-80;
 }

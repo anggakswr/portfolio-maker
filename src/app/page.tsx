@@ -1,7 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import imgAdd from "@/icon/add.svg";
-import BgImg from "@/components/index/BgImg";
 import Profile from "@/components/index/Profile";
+import ImgField from "@/components/index/ImgField";
+import ShadowBox from "@/components/index/ShadowBox";
+// import CustomInput from "@/components/index/shadow-box/CustomInput";
+// import CustomTextarea from "@/components/index/shadow-box/CustomTextarea";
+import ExpField from "@/components/index/ExpField";
 
 export default function Home() {
   return (
@@ -32,7 +38,21 @@ export default function Home() {
       <div className="flex items-start gap-x-[45px]">
         <div className="w-3/5">
           {/* box 1 */}
-          <BgImg />
+          <ImgField label="Background Image" />
+
+          {/* box 2 */}
+          <ImgField label="Profile Image" />
+
+          {/* box 3 */}
+          <ShadowBox label="Profile">
+            asd
+            {/* <CustomInput placeholder="Nama" />
+            <CustomInput placeholder="Title / Posisi" />
+            <CustomTextarea placeholder="Deskripsi" /> */}
+          </ShadowBox>
+
+          {/* box 4 */}
+          <ExpField />
         </div>
 
         <div className="w-2/5">
