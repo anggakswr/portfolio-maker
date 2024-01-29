@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins, Public_Sans } from "next/font/google";
 import "./globals.css";
 import ReactQueryContainer from "@/components/ReactQueryContainer";
+import GlobalLoading from "@/components/GlobalLoading";
 
 const publicSans = Public_Sans({
   // weight: ["400", "500", "600", "700"],
@@ -38,6 +39,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${inter.variable} ${publicSans.className} bg-[#FAFAFA] px-40 py-[59px]`}
       >
         <ReactQueryContainer>{children}</ReactQueryContainer>
+        <GlobalLoading />
       </body>
     </html>
   );

@@ -1,22 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShadowBox from "./ShadowBox";
 import CustomDate from "./shadow-box/CustomDate";
 import CustomInput from "./shadow-box/CustomInput";
 import CustomTextarea from "./shadow-box/CustomTextarea";
 import axios1 from "@/helpers/axios1";
-import dayjs from "dayjs";
+import useExps, { IExp } from "@/hooks/useExps";
 
 const ExpField = () => {
-  return <CustomField />;
+  const { exps } = useExps();
+
+  return (
+    <>
+      {exps.map((exp, i) => (
+        <CustomField key={`custom-field-${exp.id}`} apiExp={exp} index={i} />
+      ))}
+    </>
+  );
 };
 
-const CustomField = () => {
+const CustomField = ({ apiExp, index }: { apiExp: IExp; index: number }) => {
+  // local state
   const [exp, setExp] = useState({
     name: "",
     position: "",
     company: "",
-    description: "ASD",
+    description: "",
+    startDate: "",
+    endDate: "",
   });
+
+  useEffect(() => {
+    setExp(apiExp);
+  }, [apiExp]);
 
   const setField = (value: string, prop: string) => {
     setExp((prevExp) => {
@@ -27,20 +42,14 @@ const CustomField = () => {
     });
   };
 
-  const today = dayjs().format("YYYY-MM-DD");
-
   const onSubmit = async () => {
     try {
-      await axios1.post("/experiences", {
-        ...exp,
-        startDate: today,
-        endDate: today,
-      });
+      await axios1.post("/experiences", exp);
     } catch {}
   };
 
   return (
-    <ShadowBox label="Portfolio 1" onClose={() => {}}>
+    <ShadowBox label={`Portfolio ${index + 1}`} onClose={() => {}}>
       <CustomInput
         placeholder="Nama"
         value={exp.name}
@@ -59,8 +68,18 @@ const CustomField = () => {
         onChange={(e) => setField(e, "company")}
       />
 
-      <CustomDate />
-      <CustomTextarea placeholder="Deskripsi" />
+      <CustomDate
+        startDate={exp.startDate}
+        endDate={exp.endDate}
+        startDateChange={(e) => setField(e, "startDate")}
+        endDateChange={(e) => setField(e, "endDate")}
+      />
+
+      <CustomTextarea
+        placeholder="Deskripsi"
+        value={exp.description}
+        onChange={(e) => setField(e, "description")}
+      />
 
       <button
         onClick={onSubmit}

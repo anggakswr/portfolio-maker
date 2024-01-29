@@ -1,14 +1,9 @@
-// import { useQuery } from "react-query";
 // import ImageFull from "../ImageFull";
-// import axios1 from "@/helpers/axios1";
-
-// const getExps = () => {
-//   return axios1.get("/experiences");
-// };
+import useExps, { IExp } from "@/hooks/useExps";
+import dayjs from "dayjs";
 
 const Profile = () => {
-  // const { data } = useQuery("exps", getExps);
-  // console.log({ data });
+  const { exps } = useExps();
 
   return (
     <div className="font-inter w-full pb-96 relative bg-white rounded-xl overflow-hidden shadow">
@@ -37,32 +32,37 @@ const Profile = () => {
       <div className="w-3/4 mx-auto">
         <div className="text-gray-900 text-base font-bold mb-3">Portofolio</div>
 
-        <p className="text-sm">No data.</p>
+        {!exps?.length ? <p className="text-sm">No data.</p> : null}
 
-        {/* <Exp />
-        <Exp />
-        <Exp /> */}
+        {exps.map((exp) => (
+          <Exp key={`exp-${exp.id}`} exp={exp} />
+        ))}
       </div>
     </div>
   );
 };
 
-const Exp = () => {
+const Exp = ({ exp }: { exp: IExp }) => {
   return (
     <div className="rounded-md shadow border pt-0.5 pb-8 px-6 font-poppins mb-9 last:mb-0">
       <div className="text-black text-base font-medium">
-        Front End Developer
+        {/* Front End Developer */}
+        {exp.position}
       </div>
 
-      <div className="text-gray-500 text-xs font-medium">MySkill</div>
+      <div className="text-gray-500 text-xs font-medium">
+        {/* MySkill */}
+        {exp.company}
+      </div>
 
       <div className="text-gray-500 text-xs font-normal mb-[7px]">
-        Januari 2023 - Desember 2023
+        {/* Januari 2023 - Desember 2023 */}
+        {dayjs(exp.startDate).format("MMMM YYYY")} -{" "}
+        {dayjs(exp.endDate).format("MMMM YYYY")}
       </div>
 
       <div className="text-gray-900 text-xs font-normal font-inter leading-[18px]">
-        Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem
-        ipsum dolor sit amet lorem ipsum dolor sit amet{" "}
+        {exp.description}
       </div>
     </div>
   );

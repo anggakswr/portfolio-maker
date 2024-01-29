@@ -8,13 +8,34 @@ import ShadowBox from "@/components/index/ShadowBox";
 // import CustomInput from "@/components/index/shadow-box/CustomInput";
 // import CustomTextarea from "@/components/index/shadow-box/CustomTextarea";
 import ExpField from "@/components/index/ExpField";
+import axios1 from "@/helpers/axios1";
 
 export default function Home() {
+  const addExp = async () => {
+    const exp = {
+      name: "",
+      position: "",
+      company: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+    };
+
+    try {
+      await axios1.post("/experiences", exp);
+    } catch {}
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  };
+
   return (
     <div>
       <div className="flex gap-x-4 mb-[33px]">
         {/* btn 1 */}
-        <div className="cursor-pointer h-12 px-[22px] py-[11px] rounded-lg border border-cyan-600 border-opacity-50 justify-center items-center gap-2 inline-flex">
+        <div
+          onClick={addExp}
+          className="cursor-pointer h-12 px-[22px] py-[11px] rounded-lg border border-cyan-600 border-opacity-50 justify-center items-center gap-2 inline-flex"
+        >
           <div className="w-6 h-6 relative">
             <Image src={imgAdd} alt="Add" />
           </div>

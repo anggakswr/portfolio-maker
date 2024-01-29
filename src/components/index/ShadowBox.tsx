@@ -3,7 +3,7 @@
 import Image from "next/image";
 import imgResize from "@/icon/resize.svg";
 import imgClose from "@/icon/circle-close.svg";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface IShadowBoxProp {
   label: string;
@@ -12,15 +12,17 @@ interface IShadowBoxProp {
 }
 
 const ShadowBox = ({ label, children, onClose }: IShadowBoxProp) => {
+  const [dropdown, setDropdown] = useState(true);
+
   return (
     <div className="font-public-sans p-6 mb-6 bg-white rounded-xl shadow">
-      <div className="flex justify-between items-center mb-[18px]">
+      <div className="flex justify-between items-center">
         <div className="text-gray-800 text-base font-semibold underline leading-normal">
           {label}
         </div>
 
         <div className="box-equal gap-x-4">
-          <button>
+          <button onClick={() => setDropdown(!dropdown)}>
             <Image src={imgResize} alt="Resize" />
           </button>
 
@@ -32,7 +34,7 @@ const ShadowBox = ({ label, children, onClose }: IShadowBoxProp) => {
         </div>
       </div>
 
-      {children}
+      {dropdown ? <div className="mt-[18px]">{children}</div> : null}
     </div>
   );
 };
