@@ -1,5 +1,6 @@
 import Btn1 from "@/components/form/Btn1";
 import axios1 from "@/helpers/axios1";
+import useExps from "@/hooks/useExps";
 import { Dispatch, SetStateAction } from "react";
 
 const DeletePopup = ({
@@ -9,12 +10,14 @@ const DeletePopup = ({
   deletePopup: string;
   setDeletePopup: Dispatch<SetStateAction<string>>;
 }) => {
+  const { refetch } = useExps();
   const closePopup = () => setDeletePopup("");
 
   const onOk = async () => {
     try {
       await axios1.delete(`/experiences/${deletePopup}`);
       closePopup();
+      refetch();
     } catch {}
   };
 
@@ -25,7 +28,10 @@ const DeletePopup = ({
   return (
     <div className="fixed z-20 inset-0 box-center">
       {/* bg */}
-      <div className="absolute inset-0 bg-black/50" onClick={closePopup} />
+      <div
+        className="rounded-none absolute inset-0 bg-black/50"
+        onClick={closePopup}
+      />
 
       {/* content */}
       <div className="relative z-10 p-4 rounded-xl bg-white">

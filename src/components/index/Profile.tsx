@@ -1,13 +1,15 @@
 // import ImageFull from "../ImageFull";
 import useExps, { IExp } from "@/hooks/useExps";
+import useProfile from "@/hooks/useProfile";
 import dayjs from "dayjs";
 
 const Profile = () => {
   const { exps } = useExps();
+  const { profile } = useProfile();
 
   return (
     <div className="font-inter w-full pb-96 relative bg-white rounded-xl overflow-hidden shadow">
-      <div className="relative w-full h-60 bg-gray-200">
+      <div className="relative w-full h-60 bg-gray-200 rounded-b-none">
         {/* <ImageFull src="https://picsum.photos/500/200" alt="Cover" /> */}
       </div>
 
@@ -19,12 +21,11 @@ const Profile = () => {
 
       {/* profile */}
       <div className="text-center mb-5">
-        <div className="text-gray-900 text-2xl font-bold">Nama</div>
-        <div className="text-zinc-500 text-base font-bold">Title</div>
+        <div className="text-gray-900 text-2xl font-bold">{profile.name}</div>
+        <div className="text-zinc-500 text-base font-bold">{profile.title}</div>
 
         <div className="w-1/2 mx-auto text-gray-900 text-xs font-normal leading-tight">
-          Deskripsi, lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem
-          ipsum dolor sit amet lorem ipsum dolor sit amet{" "}
+          {profile.description}
         </div>
       </div>
 
@@ -44,7 +45,7 @@ const Profile = () => {
 
 const Exp = ({ exp }: { exp: IExp }) => {
   return (
-    <div className="rounded-md shadow border pt-0.5 pb-8 px-6 font-poppins mb-9 last:mb-0">
+    <div className="rounded-md shadow border p-4 font-poppins mb-9 last:mb-0">
       <div className="text-black text-base font-medium">
         {/* Front End Developer */}
         {exp.position}

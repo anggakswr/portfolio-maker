@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  @apply duration-150;
+  @apply duration-150 rounded-xl;
 }
 
 .box-center {

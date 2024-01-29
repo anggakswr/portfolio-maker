@@ -4,13 +4,14 @@ import Image from "next/image";
 import imgAdd from "@/icon/add.svg";
 import Profile from "@/components/index/Profile";
 import ImgField from "@/components/index/ImgField";
-import ShadowBox from "@/components/index/ShadowBox";
-// import CustomInput from "@/components/index/shadow-box/CustomInput";
-// import CustomTextarea from "@/components/index/shadow-box/CustomTextarea";
 import ExpField from "@/components/index/ExpField";
 import axios1 from "@/helpers/axios1";
+import useExps from "@/hooks/useExps";
+import ProfileField from "@/components/index/ProfileField";
 
 export default function Home() {
+  const { refetch } = useExps();
+
   const addExp = async () => {
     const exp = {
       name: "",
@@ -23,9 +24,9 @@ export default function Home() {
 
     try {
       await axios1.post("/experiences", exp);
+      refetch();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     } catch {}
-
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   };
 
   return (
@@ -65,14 +66,9 @@ export default function Home() {
           <ImgField label="Profile Image" />
 
           {/* box 3 */}
-          <ShadowBox label="Profile">
-            asd
-            {/* <CustomInput placeholder="Nama" />
-            <CustomInput placeholder="Title / Posisi" />
-            <CustomTextarea placeholder="Deskripsi" /> */}
-          </ShadowBox>
+          <ProfileField />
 
-          {/* box 4 */}
+          {/* box 4 (portos) */}
           <ExpField />
         </div>
 

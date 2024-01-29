@@ -17,7 +17,11 @@ const getExps = () => {
 };
 
 const useExps = () => {
-  const query = useQuery("exps", getExps);
+  const query = useQuery("exps", getExps, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
   const exps: IExp[] = query.data?.data ?? [];
 
   return { ...query, exps };

@@ -40,6 +40,9 @@ const CustomField = ({
   index: number;
   setDeletePopup: Dispatch<SetStateAction<string>>;
 }) => {
+  // hooks
+  const { refetch } = useExps();
+
   // local state
   const [exp, setExp] = useState({
     id: "",
@@ -66,7 +69,8 @@ const CustomField = ({
 
   const onSubmit = async () => {
     try {
-      await axios1.post("/experiences", exp);
+      await axios1.put(`/experiences/${exp.id}`, exp);
+      refetch();
     } catch {}
   };
 
@@ -106,7 +110,7 @@ const CustomField = ({
         onChange={(e) => setField(e, "description")}
       />
 
-      <Btn1 onClick={onSubmit} text="Save" />
+      <Btn1 onClick={onSubmit} text="Simpan" />
     </ShadowBox>
   );
 };

@@ -3,6 +3,7 @@ import { Inter, Poppins, Public_Sans } from "next/font/google";
 import "./globals.css";
 import ReactQueryContainer from "@/components/ReactQueryContainer";
 import GlobalLoading from "@/components/GlobalLoading";
+import GlobalSnackbar from "@/components/GlobalSnackbar";
 
 const publicSans = Public_Sans({
   // weight: ["400", "500", "600", "700"],
@@ -40,6 +41,7 @@ export default function RootLayout({
       >
         <ReactQueryContainer>{children}</ReactQueryContainer>
         <GlobalLoading />
+        <GlobalSnackbar />
       </body>
     </html>
   );
