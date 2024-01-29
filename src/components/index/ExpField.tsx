@@ -1,26 +1,48 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ShadowBox from "./ShadowBox";
 import CustomDate from "./shadow-box/CustomDate";
 import CustomInput from "./shadow-box/CustomInput";
 import CustomTextarea from "./shadow-box/CustomTextarea";
 import axios1 from "@/helpers/axios1";
 import useExps, { IExp } from "@/hooks/useExps";
+import DeletePopup from "./exp-field/DeletePopup";
+import Btn1 from "../form/Btn1";
 
 const ExpField = () => {
+  // local state
+  const [deletePopup, setDeletePopup] = useState("");
+
+  // hooks
   const { exps } = useExps();
 
   return (
     <>
+      <DeletePopup deletePopup={deletePopup} setDeletePopup={setDeletePopup} />
+
       {exps.map((exp, i) => (
-        <CustomField key={`custom-field-${exp.id}`} apiExp={exp} index={i} />
+        <CustomField
+          key={`custom-field-${exp.id}`}
+          apiExp={exp}
+          index={i}
+          setDeletePopup={setDeletePopup}
+        />
       ))}
     </>
   );
 };
 
-const CustomField = ({ apiExp, index }: { apiExp: IExp; index: number }) => {
+const CustomField = ({
+  apiExp,
+  index,
+  setDeletePopup,
+}: {
+  apiExp: IExp;
+  index: number;
+  setDeletePopup: Dispatch<SetStateAction<string>>;
+}) => {
   // local state
   const [exp, setExp] = useState({
+    id: "",
     name: "",
     position: "",
     company: "",
@@ -49,7 +71,10 @@ const CustomField = ({ apiExp, index }: { apiExp: IExp; index: number }) => {
   };
 
   return (
-    <ShadowBox label={`Portfolio ${index + 1}`} onClose={() => {}}>
+    <ShadowBox
+      label={`Portfolio ${index + 1}`}
+      onClose={() => setDeletePopup(exp.id)}
+    >
       <CustomInput
         placeholder="Nama"
         value={exp.name}
@@ -81,14 +106,7 @@ const CustomField = ({ apiExp, index }: { apiExp: IExp; index: number }) => {
         onChange={(e) => setField(e, "description")}
       />
 
-      <button
-        onClick={onSubmit}
-        className="px-[22px] py-[11px] rounded-lg bg-cyan-600"
-      >
-        <span className="text-white text-[15px] font-bold leading-relaxed">
-          Save
-        </span>
-      </button>
+      <Btn1 onClick={onSubmit} text="Save" />
     </ShadowBox>
   );
 };

@@ -10,6 +10,14 @@
   @apply flex items-center justify-center;
 }
 
+.box-between {
+  @apply flex items-center justify-between;
+}
+
+.box-end {
+  @apply flex items-end justify-end;
+}
+
 .box-equal {
   @apply flex items-center;
 }
