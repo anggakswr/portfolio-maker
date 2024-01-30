@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Perubahan Design
+
+Ada perubahan desain yang dilakukan seperti berikut:
+
+- Menghilangkan tombol `Simpan Perubahan` di atas, lalu memindahkannya ke tiap kotak portfolio dan kotak profile, supaya lebih mudah untuk simpan data, dan lebih simple bagi user.
+- Menghilangkan field `Nama` di portfolio karena tidak ditampilkan dimanapun, lagipula kurang jelas arti dari `Nama` ini apa.
+- Mengubah padding pada portfolio di sebelah kanan supaya konsisten saja antara atas bawah kanan kiri.
+- Menghilangkan mp4 pada upload gambar. Lagipula kalau video dijadikan base64 akan berat dan besar.
