@@ -4,6 +4,7 @@ import imgFile from "@/icon/file.svg";
 import { DragEvent, useState } from "react";
 import { Base64Type } from "./ImgFields";
 import ImageFull from "../ImageFull";
+import useSnackbarStore from "@/store/snackbar";
 
 const ImgField = ({
   label,
@@ -16,13 +17,31 @@ const ImgField = ({
   setFile: (e: FileList) => void;
   onClose: () => void;
 }) => {
+  // global state
+  const { setSnackbar } = useSnackbarStore((state) => state);
+
   // local state
   const [dropdown, setDropdown] = useState(true);
   const [drag, setDrag] = useState(false);
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setFile(e.dataTransfer.files);
+
+    const { files } = e.dataTransfer;
+    const file = files[0];
+    const { size, type } = file;
+    const oneMb = 1024 * 1024;
+    const aTypes = ["image/jpeg", "image/png"];
+
+    if (size / oneMb > 500) {
+      // max size = 500 mb
+      setSnackbar({ type: "error", message: "Ukuran file terlalu besar" });
+    } else if (!aTypes.includes(type)) {
+      // allowed types = png, jpg, jpeg
+      setSnackbar({ type: "error", message: "Format file tidak didukung" });
+    } else {
+      setFile(e.dataTransfer.files);
+    }
   };
 
   const onDragOver = () => setDrag(true);
@@ -104,7 +123,7 @@ const ImgField = ({
               </div>
 
               <div className="text-neutral-400 text-xs font-normal text-poppins underline">
-                Support formats : png, jpg, jpeg, mp4.
+                Support formats : png, jpg, jpeg.
               </div>
 
               <div className="text-neutral-400 text-xs font-normal text-poppins underline">
