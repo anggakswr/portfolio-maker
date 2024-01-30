@@ -3,15 +3,18 @@ import imgResize from "@/icon/resize.svg";
 import imgFile from "@/icon/file.svg";
 import { DragEvent, useState } from "react";
 import { Base64Type } from "./ImgFields";
+import ImageFull from "../ImageFull";
 
 const ImgField = ({
   label,
   base64,
   setFile,
+  onClose,
 }: {
   label: string;
   base64: Base64Type;
   setFile: (e: FileList) => void;
+  onClose: () => void;
 }) => {
   // local state
   const [dropdown, setDropdown] = useState(true);
@@ -48,7 +51,18 @@ const ImgField = ({
           } border-dashed border-gray-400 mt-[18px] font-poppins h-[234px] flex flex-col gap-1 items-center justify-center bg-gray-200 rounded-lg`}
         >
           {base64 ? (
-            <div>asd</div>
+            <div className="relative w-20 h-20 bg-white shadow-xl">
+              {/* close btn */}
+              <div
+                onClick={onClose}
+                className="cursor-pointer absolute z-10 -top-2 -right-2 w-6 h-6 box-center bg-red-500 text-white text-xl rounded-full shadow-xl"
+              >
+                &times;
+              </div>
+
+              {/* img */}
+              <ImageFull src={base64 as string} alt="Base 64" />
+            </div>
           ) : (
             <>
               <div>

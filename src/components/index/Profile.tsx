@@ -1,4 +1,4 @@
-// import ImageFull from "../ImageFull";
+import ImageFull from "../ImageFull";
 import useExps, { IExp } from "@/hooks/useExps";
 import useProfile from "@/hooks/useProfile";
 import dayjs from "dayjs";
@@ -7,15 +7,18 @@ const Profile = () => {
   const { exps } = useExps();
   const { profile } = useProfile();
 
+  const lsBase1 = localStorage.getItem("base1");
+  const lsBase2 = localStorage.getItem("base2");
+
   return (
     <div className="font-inter w-full pb-96 relative bg-white rounded-xl overflow-hidden shadow">
       <div className="relative w-full h-60 bg-gray-200 rounded-b-none">
-        {/* <ImageFull src="https://picsum.photos/500/200" alt="Cover" /> */}
+        {lsBase1 ? <ImageFull src={lsBase1} alt="Cover" /> : null}
       </div>
 
       <div className="box-center -mt-20 mb-5">
         <div className="relative z-10 w-32 h-32 bg-gray-300 rounded-full overflow-hidden">
-          {/* <ImageFull src="https://picsum.photos/100/100" alt="Profile" /> */}
+          {lsBase2 ? <ImageFull src={lsBase2} alt="Profile" /> : null}
         </div>
       </div>
 

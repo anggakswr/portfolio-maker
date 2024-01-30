@@ -21,6 +21,7 @@ const useProfile = () => {
   });
 
   const profiles: IProfile[] = query.data?.data ?? [];
+
   const defaultProfile = {
     name: "Nama",
     title: "Programmer",
