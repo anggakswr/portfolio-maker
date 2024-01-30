@@ -4,20 +4,28 @@ import CustomInput from "./shadow-box/CustomInput";
 import CustomTextarea from "./shadow-box/CustomTextarea";
 import Btn1 from "../form/Btn1";
 import axios1 from "@/helpers/axios1";
-import useProfile from "@/hooks/useProfile";
+import useProfile, { IProfile } from "@/hooks/useProfile";
 
 const ProfileField = () => {
   const { profile: apiProfile, refetch } = useProfile();
+  return <CustomField apiProfile={apiProfile} />;
+};
 
-  // local state
-  const [profile, setProfile] = useState({
+const CustomField = ({ apiProfile }: { apiProfile: IProfile }) => {
+  // hooks
+  const { refetch } = useProfile();
+
+  const defaultProfile = {
     name: "",
     avatar: "",
     cover: "",
     title: "",
     description: "",
     id: "",
-  });
+  };
+
+  // local state
+  const [profile, setProfile] = useState(defaultProfile);
 
   useEffect(() => {
     setProfile(apiProfile);
