@@ -65,9 +65,11 @@ const Profile = () => {
 
         {!exps?.length ? <p className="text-sm">No data.</p> : null}
 
-        {exps.map((exp) => (
-          <Exp key={`exp-${exp.id}`} exp={exp} />
-        ))}
+        {exps
+          .filter((exp) => exp.startDate && exp.endDate)
+          .map((exp) => (
+            <Exp key={`exp-${exp.id}`} exp={exp} />
+          ))}
       </div>
     </div>
   );

@@ -6,8 +6,14 @@ import Btn1 from "../form/Btn1";
 import axios1 from "@/helpers/axios1";
 import useProfile, { IProfile } from "@/hooks/useProfile";
 
+interface IError {
+  name: string[];
+  title: string[];
+  description: string[];
+}
+
 const ProfileField = () => {
-  const { profile: apiProfile, refetch } = useProfile();
+  const { profile: apiProfile } = useProfile();
   return <CustomField apiProfile={apiProfile} />;
 };
 
@@ -24,8 +30,15 @@ const CustomField = ({ apiProfile }: { apiProfile: IProfile }) => {
     id: "",
   };
 
+  const defaultError = {
+    name: [],
+    title: [],
+    description: [],
+  };
+
   // local state
   const [profile, setProfile] = useState(defaultProfile);
+  const [oError, setOError] = useState<IError>(defaultError);
 
   useEffect(() => {
     setProfile(apiProfile);
@@ -41,10 +54,30 @@ const CustomField = ({ apiProfile }: { apiProfile: IProfile }) => {
   };
 
   const onSubmit = async () => {
-    try {
-      await axios1.put(`/profile/${profile.id}`, profile);
-      refetch();
-    } catch {}
+    setOError(defaultError);
+
+    const aFields = ["name", "title", "description"];
+    const allFilled = aFields.every(
+      (sField) => profile[sField as keyof typeof profile]
+    );
+
+    if (allFilled) {
+      try {
+        await axios1.put(`/profile/${profile.id}`, profile);
+        refetch();
+      } catch {}
+    } else {
+      aFields.forEach((sField) => {
+        if (!profile[sField as keyof typeof profile]) {
+          setOError((prevErr) => {
+            return {
+              ...prevErr,
+              [sField]: ["Kotak wajib diisi"],
+            };
+          });
+        }
+      });
+    }
   };
 
   return (
@@ -53,18 +86,21 @@ const CustomField = ({ apiProfile }: { apiProfile: IProfile }) => {
         placeholder="Nama"
         value={profile.name}
         onChange={(e) => setField(e, "name")}
+        aErrors={oError.name}
       />
 
       <CustomInput
         placeholder="Title / Posisi"
         value={profile.title}
         onChange={(e) => setField(e, "title")}
+        aErrors={oError.title}
       />
 
       <CustomTextarea
         placeholder="Deskripsi"
         value={profile.description}
         onChange={(e) => setField(e, "description")}
+        aErrors={oError.description}
       />
 
       <Btn1 onClick={onSubmit} text="Simpan" />

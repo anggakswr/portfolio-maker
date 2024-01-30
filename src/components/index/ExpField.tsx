@@ -31,6 +31,22 @@ const ExpField = () => {
   );
 };
 
+interface IError {
+  position: string[];
+  company: string[];
+  description: string[];
+  startDate: string[];
+  endDate: string[];
+}
+
+const defaultError = {
+  position: [],
+  company: [],
+  description: [],
+  startDate: [],
+  endDate: [],
+};
+
 const CustomField = ({
   apiExp,
   index,
@@ -44,9 +60,9 @@ const CustomField = ({
   const { refetch } = useExps();
 
   // local state
+  const [oError, setOError] = useState<IError>(defaultError);
   const [exp, setExp] = useState({
     id: "",
-    name: "",
     position: "",
     company: "",
     description: "",
@@ -68,10 +84,37 @@ const CustomField = ({
   };
 
   const onSubmit = async () => {
-    try {
-      await axios1.put(`/experiences/${exp.id}`, exp);
-      refetch();
-    } catch {}
+    setOError(defaultError);
+
+    const aFields = [
+      "position",
+      "company",
+      "startDate",
+      "endDate",
+      "description",
+    ];
+
+    const allFilled = aFields.every(
+      (sField) => exp[sField as keyof typeof exp]
+    );
+
+    if (allFilled) {
+      try {
+        await axios1.put(`/experiences/${exp.id}`, exp);
+        refetch();
+      } catch {}
+    } else {
+      aFields.forEach((sField) => {
+        if (!exp[sField as keyof typeof exp]) {
+          setOError((prevErr) => {
+            return {
+              ...prevErr,
+              [sField]: ["Kotak wajib diisi"],
+            };
+          });
+        }
+      });
+    }
   };
 
   return (
@@ -80,34 +123,63 @@ const CustomField = ({
       onClose={() => setDeletePopup(exp.id)}
     >
       <CustomInput
-        placeholder="Nama"
-        value={exp.name}
-        onChange={(e) => setField(e, "name")}
-      />
-
-      <CustomInput
         placeholder="Posisi"
         value={exp.position}
         onChange={(e) => setField(e, "position")}
+        aErrors={oError.position}
       />
 
       <CustomInput
         placeholder="Perusahaan"
         value={exp.company}
         onChange={(e) => setField(e, "company")}
+        aErrors={oError.company}
       />
 
-      <CustomDate
+      <div className="mb-6 last:mb-0 grid grid-cols-2 gap-x-3.5 ">
+        <div>
+          <div className="mb-1 text-sm text-gray-800 font-semibold leading-normal">
+            Start Date
+          </div>
+
+          <CustomInput
+            placeholder=""
+            type="date"
+            value={exp.startDate}
+            onChange={(e) => setField(e, "startDate")}
+            aErrors={oError.startDate}
+          />
+        </div>
+
+        <div>
+          <div className="mb-1 text-sm text-gray-800 font-semibold leading-normal">
+            End Date
+          </div>
+
+          <CustomInput
+            placeholder=""
+            type="date"
+            value={exp.endDate}
+            onChange={(e) => setField(e, "endDate")}
+            aErrors={oError.endDate}
+          />
+        </div>
+      </div>
+
+      {/* <CustomDate
         startDate={exp.startDate}
         endDate={exp.endDate}
         startDateChange={(e) => setField(e, "startDate")}
         endDateChange={(e) => setField(e, "endDate")}
-      />
+        aStartDateErrors={oError.startDate}
+        aEndDateErrors={oError.endDate}
+      /> */}
 
       <CustomTextarea
         placeholder="Deskripsi"
         value={exp.description}
         onChange={(e) => setField(e, "description")}
+        aErrors={oError.company}
       />
 
       <Btn1 onClick={onSubmit} text="Simpan" />
