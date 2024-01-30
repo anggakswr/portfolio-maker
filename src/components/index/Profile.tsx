@@ -1,24 +1,42 @@
 import ImageFull from "../ImageFull";
 import useExps, { IExp } from "@/hooks/useExps";
 import useProfile from "@/hooks/useProfile";
+import useBase64Store from "@/store/base64";
 import dayjs from "dayjs";
 
 const Profile = () => {
+  // hooks
   const { exps } = useExps();
   const { profile } = useProfile();
+
+  // global state
+  const { base1: storeBase1, base2: storeBase2 } = useBase64Store(
+    (state) => state
+  );
 
   const lsBase1 = localStorage.getItem("base1");
   const lsBase2 = localStorage.getItem("base2");
 
+  const base1 = storeBase1 ?? lsBase1;
+  const base2 = storeBase2 ?? lsBase2;
+
   return (
     <div className="font-inter w-full pb-96 relative bg-white rounded-xl overflow-hidden shadow">
-      <div className="relative w-full h-60 bg-gray-200 rounded-b-none">
-        {lsBase1 ? <ImageFull src={lsBase1} alt="Cover" /> : null}
+      <div
+        className={`relative w-full h-60 ${
+          base1 ? "bg-white" : "bg-gray-200"
+        } rounded-b-none`}
+      >
+        {base1 ? <ImageFull src={base1 as string} alt="Cover" /> : null}
       </div>
 
       <div className="box-center -mt-20 mb-5">
-        <div className="relative z-10 w-32 h-32 bg-gray-300 rounded-full overflow-hidden">
-          {lsBase2 ? <ImageFull src={lsBase2} alt="Profile" /> : null}
+        <div
+          className={`relative z-10 w-32 h-32 ${
+            base2 ? "bg-white" : "bg-gray-300"
+          } rounded-full overflow-hidden shadow-xl`}
+        >
+          {base2 ? <ImageFull src={base2 as string} alt="Profile" /> : null}
         </div>
       </div>
 

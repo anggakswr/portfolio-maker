@@ -3,13 +3,17 @@ import ImgField from "./ImgField";
 import getBase64 from "@/helpers/getBase64";
 // import axios1 from "@/helpers/axios1";
 import useProfile from "@/hooks/useProfile";
+import useBase64Store from "@/store/base64";
 
 export type Base64Type = string | ArrayBuffer | null;
 
 const ImgFields = () => {
+  // global state
+  const { base1, base2, setBase1, setBase2 } = useBase64Store((state) => state);
+
   // local state
-  const [base1, setBase1] = useState<Base64Type>("");
-  const [base2, setBase2] = useState<Base64Type>("");
+  // const [base1, setBase1] = useState<Base64Type>("");
+  // const [base2, setBase2] = useState<Base64Type>("");
   const [file1, setFile1] = useState<null | FileList>(null);
   const [file2, setFile2] = useState<null | FileList>(null);
 
@@ -23,7 +27,7 @@ const ImgFields = () => {
     if (lsBase1) {
       setBase1(lsBase1);
     }
-  }, [lsBase1]);
+  }, [lsBase1, setBase1]);
 
   // local storage
   const lsBase2 = localStorage.getItem("base2");
@@ -32,7 +36,7 @@ const ImgFields = () => {
     if (lsBase2) {
       setBase2(lsBase2);
     }
-  }, [lsBase2]);
+  }, [lsBase2, setBase2]);
 
   const imgUploader = useCallback(
     async (type: "file1" | "file2") => {
@@ -62,7 +66,7 @@ const ImgFields = () => {
         } catch {}
       }
     },
-    [file1, file2]
+    [file1, file2, setBase1, setBase2]
   );
 
   useEffect(() => {
