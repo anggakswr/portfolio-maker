@@ -20,23 +20,23 @@ const ImgFields = () => {
   // hooks
   const { profile } = useProfile();
 
-  // local storage
-  const lsBase1 = localStorage.getItem("base1");
-
   useEffect(() => {
+    // local storage
+    const lsBase1 = localStorage.getItem("base1");
+
     if (lsBase1) {
       setBase1(lsBase1);
     }
-  }, [lsBase1, setBase1]);
-
-  // local storage
-  const lsBase2 = localStorage.getItem("base2");
+  }, [setBase1]);
 
   useEffect(() => {
+    // local storage
+    const lsBase2 = localStorage.getItem("base2");
+
     if (lsBase2) {
       setBase2(lsBase2);
     }
-  }, [lsBase2, setBase2]);
+  }, [setBase2]);
 
   const imgUploader = useCallback(
     async (type: "file1" | "file2") => {

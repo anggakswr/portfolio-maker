@@ -10,24 +10,23 @@ const Profile = () => {
   const { profile } = useProfile();
 
   // global state
-  const { base1: storeBase1, base2: storeBase2 } = useBase64Store(
-    (state) => state
-  );
-
-  const lsBase1 = localStorage.getItem("base1");
-  const lsBase2 = localStorage.getItem("base2");
-
-  const base1 = storeBase1 ?? lsBase1;
-  const base2 = storeBase2 ?? lsBase2;
+  const { base1, base2 } = useBase64Store((state) => state);
 
   return (
     <div className="font-inter w-full pb-96 relative bg-white rounded-xl overflow-hidden shadow">
       <div
         className={`relative w-full h-60 ${
           base1 ? "bg-white" : "bg-gray-200"
-        } rounded-b-none`}
+        } rounded-b-none overflow-hidden`}
       >
-        {base1 ? <ImageFull src={base1 as string} alt="Cover" /> : null}
+        {base1 ? (
+          <ImageFull src={base1 as string} alt="Cover" />
+        ) : (
+          <>
+            <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-gray-100" />
+            <div className="absolute -bottom-32 -right-32 w-72 h-72 rounded-full bg-gray-100" />
+          </>
+        )}
       </div>
 
       <div className="box-center -mt-20 mb-5">
@@ -36,7 +35,17 @@ const Profile = () => {
             base2 ? "bg-white" : "bg-gray-300"
           } rounded-full overflow-hidden shadow-xl`}
         >
-          {base2 ? <ImageFull src={base2 as string} alt="Profile" /> : null}
+          {base2 ? (
+            <ImageFull src={base2 as string} alt="Profile" />
+          ) : (
+            <div className="w-full h-full box-center">
+              {/* head */}
+              <div className="w-10 h-10 rounded-full bg-white mx-auto" />
+
+              {/* body */}
+              <div className="absolute -bottom-8 w-20 h-20 rounded-full bg-white mx-auto" />
+            </div>
+          )}
         </div>
       </div>
 
